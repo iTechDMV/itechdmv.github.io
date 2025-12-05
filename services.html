@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - iTechDMV</title>
+    <meta name="description" content="Comprehensive technology services including cloud solutions, cybersecurity, IT management, and digital transformation for government agencies.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'itech-navy': '#1B365D',
+                        'itech-teal': '#00A6B8',
+                        'itech-gray': '#6C757D',
+                        'itech-light': '#F8F9FA'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .service-card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(27, 54, 93, 0.15);
+            border-color: #00A6B8;
+        }
+        
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: #00A6B8;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .reveal-element.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00A6B8;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .calculator-step {
+            display: none;
+        }
+        
+        .calculator-step.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="font-inter bg-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-poppins font-bold text-itech-navy">
+                        iTech<span class="text-itech-teal">DMV</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="nav-link text-itech-navy hover:text-itech-teal font-medium">Home</a>
+                        <a href="services.html" class="nav-link text-itech-teal font-medium">Services</a>
+                        <a href="about.html" class="nav-link text-itech-navy hover:text-itech-teal font-medium">About</a>
+                        <a href="contact.html" class="nav-link text-itech-navy hover:text-itech-teal font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-itech-navy hover:text-itech-teal">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-itech-navy hover:text-itech-teal font-medium">Home</a>
+                <a href="services.html" class="block px-3 py-2 text-itech-teal font-medium">Services</a>
+                <a href="about.html" class="block px-3 py-2 text-itech-navy hover:text-itech-teal font-medium">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-itech-navy hover:text-itech-teal font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-itech-navy text-white pt-24 pb-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center reveal-element">
+                <h1 class="text-5xl font-poppins font-bold mb-6">
+                    Comprehensive Technology Services
+                </h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    From cloud infrastructure to cybersecurity, we provide end-to-end technology solutions 
+                    designed specifically for government agencies and rural communities.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Filter -->
+    <section class="py-8 bg-itech-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-4">
+                <button class="filter-btn active px-6 py-3 rounded-full border border-itech-teal text-itech-teal font-medium" data-filter="all">
+                    All Services
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full border border-itech-gray text-itech-gray font-medium" data-filter="cloud">
+                    Cloud Services
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full border border-itech-gray text-itech-gray font-medium" data-filter="security">
+                    Cybersecurity
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full border border-itech-gray text-itech-gray font-medium" data-filter="management">
+                    IT Management
+                </button>
+                <button class="filter-btn px-6 py-3 rounded-full border border-itech-gray text-itech-gray font-medium" data-filter="support">
+                    Support Services
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Cloud Services -->
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element" data-category="cloud">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">Microsoft 365</h3>
+                    <p class="text-itech-gray mb-6">
+                        Complete Microsoft 365 implementation and management including Exchange Online, 
+                        SharePoint, Teams, and security compliance for government agencies.
+                    </p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-itech-gray">Starting at</span>
+                        <span class="text-2xl font-bold text-itech-teal">$12/user</span>
+                    </div>
+                    <button class="w-full bg-itech-teal hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition-colors" onclick="openCalculator('m365')">
+                        Get Quote
+                    </button>
+                </div>
+
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element" data-category="cloud">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">Azure Cloud</h3>
+                    <p class="text-itech-gray mb-6">
+                        Scalable Azure cloud infrastructure with government compliance, 
+                        including virtual machines, storage, and advanced security features.
+                    </p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-itech-gray">Starting at</span>
+                        <span class="text-2xl font-bold text-itech-teal">$0.08/hr</span>
+                    </div>
+                    <button class="w-full bg-itech-teal hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition-colors" onclick="openCalculator('azure')">
+                        Get Quote
+                    </button>
+                </div>
+
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element" data-category="cloud">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">Database Services</h3>
+                    <p class="text-itech-gray mb-6">
+                        Managed database services including SQL Server, MySQL, and NoSQL solutions 
+                        with automated backups and high availability.
+                    </p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-itech-gray">Starting at</span>
+                        <span class="text-2xl font-bold text-itech-teal">$50/mo</span>
+                    </div>
+                    <button class="w-full bg-itech-teal hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition-colors" onclick="openCalculator('database')">
+                        Get Quote
+                    </button>
+                </div>
+
+                <!-- Security Services -->
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element" data-category="security">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">Endpoint Protection</h3>
+                    <p class="text-itech-gray mb-6">
+                        Advanced endpoint security with AI-powered threat detection, 
+                        automated response, and compliance reporting for government devices.
+                    </p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-itech-gray">Starting at</span>
+                        <span class="text-2xl font-bold text-itech-teal">$8/device</span>
+                    </div>
+                    <button class="w-full bg-itech-teal hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition-colors" onclick="openCalculator('endpoint')">
+                        Get Quote
+                    </button>
+                </div>
+
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element" data-category="security">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">Multi-Factor Auth</h3>
+                    <p class="text-itech-gray mb-6">
+                        Duo Security implementation for comprehensive multi-factor authentication 
+                        protecting all your government applications and data.
+                    </p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-itech-gray">Starting at</span>
+                        <span class="text-2xl font-bold text-itech-teal">$3/user</span>
+                    </div>
+                    <button class="w-full bg-itech-teal hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition-colors" onclick="openCalculator('mfa')">
+                        Get Quote
+                    </button>
+                </div>
+
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element" data-category="security">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14-7l2 2-8 8-4-4 8-8 2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">DRaaS</h3>
+                    <p class="text-itech-gray mb-6">
+                        Disaster Recovery as a Service with automated backups, rapid recovery, 
+                        and business continuity planning for critical government systems.
+                    </p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-itech-gray">Starting at</span>
+                        <span class="text-2xl font-bold text-itech-teal">$200/mo</span>
+                    </div>
+                    <button class="w-full bg-itech-teal hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition-colors" onclick="openCalculator('draas')">
+                        Get Quote
+                    </button>
+                </div>
+
+                <!-- IT Management -->
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element" data-category="management">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">Network Management</h3>
+                    <p class="text-itech-gray mb-6">
+                        Complete network infrastructure management including monitoring, 
+                        optimization, and security for government networks of all sizes.
+                    </p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-itech-gray">Starting at</span>
+                        <span class="text-2xl font-bold text-itech-teal">$500/mo</span>
+                    </div>
+                    <button class="w-full bg-itech-teal hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition-colors" onclick="openCalculator('network')">
+                        Get Quote
+                    </button>
+                </div>
+
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element" data-category="management">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6.364 1.636l-.707.707M21 12h-2M4 12H2m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">Infrastructure</h3>
+                    <p class="text-itech-gray mb-6">
+                        Server management, virtualization, and infrastructure optimization 
+                        with 24/7 monitoring and proactive maintenance.
+                    </p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-itech-gray">Starting at</span>
+                        <span class="text-2xl font-bold text-itech-teal">$800/mo</span>
+                    </div>
+                    <button class="w-full bg-itech-teal hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition-colors" onclick="openCalculator('infrastructure')">
+                        Get Quote
+                    </button>
+                </div>
+
+                <!-- Support Services -->
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element" data-category="support">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 11-9.75 9.75 9.75 9.75 0 019.75-9.75z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">24/7 Help Desk</h3>
+                    <p class="text-itech-gray mb-6">
+                        Round-the-clock technical support with certified technicians, 
+                        remote assistance, and guaranteed response times for government users.
+                    </p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm text-itech-gray">Starting at</span>
+                        <span class="text-2xl font-bold text-itech-teal">$25/user</span>
+                    </div>
+                    <button class="w-full bg-itech-teal hover:bg-teal-600 text-white py-3 rounded-lg font-semibold transition-colors" onclick="openCalculator('helpdesk')">
+                        Get Quote
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Calculator Modal -->
+    <div id="calculator-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-poppins font-bold text-itech-navy">Service Quote Calculator</h3>
+                    <button onclick="closeCalculator()" class="text-gray-400 hover:text-gray-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="mb-8">
+                    <div class="flex justify-between text-sm text-gray-500 mb-2">
+                        <span>Step <span id="current-step">1</span> of 3</span>
+                        <span id="progress-percent">33%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="progress-bar" class="progress-bar bg-itech-teal h-2 rounded-full" style="width: 33%"></div>
+                    </div>
+                </div>
+                
+                <!-- Step 1: Service Selection -->
+                <div id="step-1" class="calculator-step active">
+                    <h4 class="text-xl font-semibold text-itech-navy mb-4">Select Your Service</h4>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-itech-teal transition-colors">
+                            <input type="radio" name="service" value="m365" class="text-itech-teal">
+                            <div class="ml-4">
+                                <div class="font-semibold text-itech-navy">Microsoft 365</div>
+                                <div class="text-sm text-gray-500">Complete office suite and collaboration tools</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-itech-teal transition-colors">
+                            <input type="radio" name="service" value="azure" class="text-itech-teal">
+                            <div class="ml-4">
+                                <div class="font-semibold text-itech-navy">Azure Cloud Services</div>
+                                <div class="text-sm text-gray-500">Scalable cloud infrastructure and platform services</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-itech-teal transition-colors">
+                            <input type="radio" name="service" value="security" class="text-itech-teal">
+                            <div class="ml-4">
+                                <div class="font-semibold text-itech-navy">Security Services</div>
+                                <div class="text-sm text-gray-500">Endpoint protection and multi-factor authentication</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Organization Size -->
+                <div id="step-2" class="calculator-step">
+                    <h4 class="text-xl font-semibold text-itech-navy mb-4">Organization Size</h4>
+                    <div class="space-y-3">
+                        <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-itech-teal transition-colors">
+                            <input type="radio" name="size" value="small" class="text-itech-teal">
+                            <div class="ml-4">
+                                <div class="font-semibold text-itech-navy">Small (1-50 employees)</div>
+                                <div class="text-sm text-gray-500">Perfect for local government offices</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-itech-teal transition-colors">
+                            <input type="radio" name="size" value="medium" class="text-itech-teal">
+                            <div class="ml-4">
+                                <div class="font-semibold text-itech-navy">Medium (51-250 employees)</div>
+                                <div class="text-sm text-gray-500">Ideal for county and regional agencies</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:border-itech-teal transition-colors">
+                            <input type="radio" name="size" value="large" class="text-itech-teal">
+                            <div class="ml-4">
+                                <div class="font-semibold text-itech-navy">Large (250+ employees)</div>
+                                <div class="text-sm text-gray-500">Enterprise solutions for state agencies</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Contact & Quote -->
+                <div id="step-3" class="calculator-step">
+                    <h4 class="text-xl font-semibold text-itech-navy mb-4">Your Custom Quote</h4>
+                    <div id="quote-summary" class="bg-itech-light p-6 rounded-lg mb-6">
+                        <!-- Quote details will be populated here -->
+                    </div>
+                    
+                    <form id="quote-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-itech-teal focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <input type="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-itech-teal focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                            <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-itech-teal focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Organization Name</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-itech-teal focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Additional Requirements</label>
+                            <textarea rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-itech-teal focus:border-transparent" placeholder="Tell us about your specific needs..."></textarea>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Navigation Buttons -->
+                <div class="flex justify-between mt-8">
+                    <button id="prev-btn" onclick="previousStep()" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors hidden">
+                        Previous
+                    </button>
+                    <div class="flex-1"></div>
+                    <button id="next-btn" onclick="nextStep()" class="px-6 py-3 bg-itech-teal text-white rounded-lg hover:bg-teal-600 transition-colors">
+                        Next
+                    </button>
+                    <button id="submit-btn" onclick="submitQuote()" class="px-6 py-3 bg-itech-teal text-white rounded-lg hover:bg-teal-600 transition-colors hidden">
+                        Get My Quote
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-itech-navy">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="reveal-element">
+                <h2 class="text-4xl font-poppins font-bold text-white mb-6">
+                    Need a Custom Solution?
+                </h2>
+                <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                    Our team of experts can design a tailored technology solution that meets your 
+                    specific requirements and budget constraints.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="contact.html" class="bg-itech-teal hover:bg-teal-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105">
+                        Contact Our Team
+                    </a>
+                    <a href="about.html" class="border-2 border-white text-white hover:bg-white hover:text-itech-navy px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300">
+                        Learn About Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="text-3xl font-poppins font-bold mb-4">
+                        iTech<span class="text-itech-teal">DMV</span>
+                    </div>
+                    <p class="text-gray-400 mb-4 max-w-md">
+                        Empowering rural America and government agencies with cutting-edge technology solutions, 
+                        cloud services, and digital transformation expertise.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#cloud" class="hover:text-itech-teal transition-colors">Cloud Services</a></li>
+                        <li><a href="#security" class="hover:text-itech-teal transition-colors">Cybersecurity</a></li>
+                        <li><a href="#management" class="hover:text-itech-teal transition-colors">IT Management</a></li>
+                        <li><a href="#support" class="hover:text-itech-teal transition-colors">Technical Support</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="about.html" class="hover:text-itech-teal transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="hover:text-itech-teal transition-colors">Contact</a></li>
+                        <li><a href="about.html#team" class="hover:text-itech-teal transition-colors">Our Team</a></li>
+                        <li><a href="about.html#careers" class="hover:text-itech-teal transition-colors">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 iTechDMV. All rights reserved. | Harrisonburg, Virginia | Transforming Government Technology</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

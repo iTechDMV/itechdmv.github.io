@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iTechDMV - Digital Transformation for Government Services</title>
+    <meta name="description" content="iTechDMV provides cutting-edge technology solutions, cloud services, and digital transformation for government agencies and rural America.">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Core Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'itech-navy': '#1B365D',
+                        'itech-teal': '#00A6B8',
+                        'itech-gray': '#6C757D',
+                        'itech-light': '#F8F9FA'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                        'poppins': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .hero-bg {
+            background: linear-gradient(135deg, #1B365D 0%, #00A6B8 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('./resources/hero-bg.jpg') center/cover;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #00A6B8, #1B365D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .service-card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(27, 54, 93, 0.15);
+            border-color: #00A6B8;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #00A6B8;
+        }
+        
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .reveal-element.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00A6B8;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="font-inter bg-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-poppins font-bold text-itech-navy">
+                        iTech<span class="text-itech-teal">DMV</span>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="index.html" class="nav-link text-itech-navy hover:text-itech-teal font-medium">Home</a>
+                        <a href="services.html" class="nav-link text-itech-navy hover:text-itech-teal font-medium">Services</a>
+                        <a href="about.html" class="nav-link text-itech-navy hover:text-itech-teal font-medium">About</a>
+                        <a href="contact.html" class="nav-link text-itech-navy hover:text-itech-teal font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-itech-navy hover:text-itech-teal">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-itech-navy hover:text-itech-teal font-medium">Home</a>
+                <a href="services.html" class="block px-3 py-2 text-itech-navy hover:text-itech-teal font-medium">Services</a>
+                <a href="about.html" class="block px-3 py-2 text-itech-navy hover:text-itech-teal font-medium">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-itech-navy hover:text-itech-teal font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center pt-16">
+        <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="text-white">
+                    <h1 class="text-5xl lg:text-6xl font-poppins font-bold mb-6 leading-tight">
+                        Digital <span class="gradient-text">Transformation</span> for Government Services
+                    </h1>
+                    <p class="text-xl lg:text-2xl mb-8 text-gray-200 leading-relaxed">
+                        Empowering rural America and government agencies with cutting-edge technology solutions, 
+                        cloud services, and AI-driven automation.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="services.html" class="bg-itech-teal hover:bg-teal-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                            Explore Services
+                        </a>
+                        <a href="contact.html" class="border-2 border-white text-white hover:bg-white hover:text-itech-navy px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300">
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+                <div class="floating-animation">
+                    <img src="./resources/technician-1.jpg" alt="iTechDMV Professional Services" class="rounded-2xl shadow-2xl w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-20 bg-itech-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="reveal-element">
+                    <div class="stat-number" data-count="500">0</div>
+                    <p class="text-itech-gray font-medium">Projects Completed</p>
+                </div>
+                <div class="reveal-element">
+                    <div class="stat-number" data-count="50">0</div>
+                    <p class="text-itech-gray font-medium">Government Partners</p>
+                </div>
+                <div class="reveal-element">
+                    <div class="stat-number" data-count="99">0</div>
+                    <p class="text-itech-gray font-medium">% Uptime SLA</p>
+                </div>
+                <div class="reveal-element">
+                    <div class="stat-number" data-count="24">0</div>
+                    <p class="text-itech-gray font-medium">/7 Support Available</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Preview Section -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal-element">
+                <h2 class="text-4xl font-poppins font-bold text-itech-navy mb-4">
+                    Comprehensive Technology Solutions
+                </h2>
+                <p class="text-xl text-itech-gray max-w-3xl mx-auto">
+                    From cloud infrastructure to cybersecurity, we provide end-to-end technology solutions 
+                    designed specifically for government agencies and rural communities.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">Cloud Services</h3>
+                    <p class="text-itech-gray mb-6">
+                        Scalable cloud solutions including Microsoft 365, Azure, and custom cloud infrastructure 
+                        designed for government compliance and security requirements.
+                    </p>
+                    <a href="services.html#cloud" class="text-itech-teal font-semibold hover:text-teal-600 transition-colors">
+                        Learn More →
+                    </a>
+                </div>
+                
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">Cybersecurity</h3>
+                    <p class="text-itech-gray mb-6">
+                        Comprehensive security solutions including threat detection, compliance management, 
+                        and disaster recovery to protect your critical government infrastructure.
+                    </p>
+                    <a href="services.html#security" class="text-itech-teal font-semibold hover:text-teal-600 transition-colors">
+                        Learn More →
+                    </a>
+                </div>
+                
+                <div class="service-card border border-gray-200 rounded-xl p-8 reveal-element">
+                    <div class="w-16 h-16 bg-itech-teal/10 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-itech-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-poppins font-semibold text-itech-navy mb-4">IT Management</h3>
+                    <p class="text-itech-gray mb-6">
+                        End-to-end IT infrastructure management including network monitoring, 
+                        hardware maintenance, and 24/7 technical support for government operations.
+                    </p>
+                    <a href="services.html#management" class="text-itech-teal font-semibold hover:text-teal-600 transition-colors">
+                        Learn More →
+                    </a>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 reveal-element">
+                <a href="services.html" class="bg-itech-navy hover:bg-blue-800 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105">
+                    View All Services
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Partners Section -->
+    <section class="py-20 bg-itech-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal-element">
+                <h2 class="text-4xl font-poppins font-bold text-itech-navy mb-4">
+                    Trusted Technology Partners
+                </h2>
+                <p class="text-xl text-itech-gray max-w-3xl mx-auto">
+                    We partner with industry-leading technology providers to deliver enterprise-grade solutions 
+                    for government agencies of all sizes.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center opacity-60">
+                <div class="reveal-element text-center">
+                    <div class="text-3xl font-bold text-itech-navy">Microsoft</div>
+                </div>
+                <div class="reveal-element text-center">
+                    <div class="text-3xl font-bold text-itech-navy">Azure</div>
+                </div>
+                <div class="reveal-element text-center">
+                    <div class="text-3xl font-bold text-itech-navy">Datto</div>
+                </div>
+                <div class="reveal-element text-center">
+                    <div class="text-3xl font-bold text-itech-navy">Duo</div>
+                </div>
+                <div class="reveal-element text-center">
+                    <div class="text-3xl font-bold text-itech-navy">AWS</div>
+                </div>
+                <div class="reveal-element text-center">
+                    <div class="text-3xl font-bold text-itech-navy">Cisco</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-itech-navy">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="reveal-element">
+                <h2 class="text-4xl font-poppins font-bold text-white mb-6">
+                    Ready to Transform Your Government Technology?
+                </h2>
+                <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                    Let iTechDMV help you modernize your infrastructure, improve efficiency, 
+                    and better serve your community with cutting-edge technology solutions.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="contact.html" class="bg-itech-teal hover:bg-teal-600 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105">
+                        Start Your Transformation
+                    </a>
+                    <a href="services.html" class="border-2 border-white text-white hover:bg-white hover:text-itech-navy px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300">
+                        Explore Solutions
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="text-3xl font-poppins font-bold mb-4">
+                        iTech<span class="text-itech-teal">DMV</span>
+                    </div>
+                    <p class="text-gray-400 mb-4 max-w-md">
+                        Empowering rural America and government agencies with cutting-edge technology solutions, 
+                        cloud services, and digital transformation expertise.
+                    </p>
+                    <div class="flex space-x-4">
+                        <div class="w-10 h-10 bg-itech-teal rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold">f</span>
+                        </div>
+                        <div class="w-10 h-10 bg-itech-teal rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold">in</span>
+                        </div>
+                        <div class="w-10 h-10 bg-itech-teal rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold">t</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="services.html#cloud" class="hover:text-itech-teal transition-colors">Cloud Services</a></li>
+                        <li><a href="services.html#security" class="hover:text-itech-teal transition-colors">Cybersecurity</a></li>
+                        <li><a href="services.html#management" class="hover:text-itech-teal transition-colors">IT Management</a></li>
+                        <li><a href="services.html#support" class="hover:text-itech-teal transition-colors">Technical Support</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="about.html" class="hover:text-itech-teal transition-colors">About Us</a></li>
+                        <li><a href="contact.html" class="hover:text-itech-teal transition-colors">Contact</a></li>
+                        <li><a href="about.html#team" class="hover:text-itech-teal transition-colors">Our Team</a></li>
+                        <li><a href="about.html#careers" class="hover:text-itech-teal transition-colors">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 iTechDMV. All rights reserved. | Harrisonburg, Virginia | Transforming Government Technology</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
